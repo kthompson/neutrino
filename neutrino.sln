@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{23F63709-51D6-4E01-8820-4F9674BACCFC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{9CD02547-E2E5-453B-8D15-F3D903492B76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EC1D7D23-CA7C-468C-8410-B287BE44F88B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutrino", "src\Neutrino\Neutrino.csproj", "{8801736D-7F1B-440E-BE16-442825A1BF64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neutrino.Tests", "tests\Neutrino.Tests\Neutrino.Tests.csproj", "{5AA119BA-A94E-47C1-B17B-3AE1D1BB7A6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8801736D-7F1B-440E-BE16-442825A1BF64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8801736D-7F1B-440E-BE16-442825A1BF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8801736D-7F1B-440E-BE16-442825A1BF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8801736D-7F1B-440E-BE16-442825A1BF64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AA119BA-A94E-47C1-B17B-3AE1D1BB7A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AA119BA-A94E-47C1-B17B-3AE1D1BB7A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AA119BA-A94E-47C1-B17B-3AE1D1BB7A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AA119BA-A94E-47C1-B17B-3AE1D1BB7A6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8801736D-7F1B-440E-BE16-442825A1BF64} = {23F63709-51D6-4E01-8820-4F9674BACCFC}
+		{5AA119BA-A94E-47C1-B17B-3AE1D1BB7A6F} = {EC1D7D23-CA7C-468C-8410-B287BE44F88B}
+	EndGlobalSection
+EndGlobal
