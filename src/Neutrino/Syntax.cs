@@ -21,8 +21,13 @@ public static class Syntax
     
     public static IParser<T, T> Constant<T>(T value) => new ConstantParser<T>(value);
 
-    public static IParser<bool, ValueParserResult<bool>> Option(OptionName name, params OptionName[] otherNames) =>
-        throw new NotImplementedException();
+    
+    public static IParser<bool, ValueParserResult<bool>> Flag(OptionName name, params OptionName[] optionNames) =>
+        new FlagParser([name, ..optionNames]);
+    
+    public static IParser<bool, ValueParserResult<bool>> Option(OptionName name, params OptionName[] optionNames) =>
+        new OptionParser([name, ..optionNames]);
+    
 
     public static IParser<T, ValueParserResult<T>> Option<T>(IReadOnlyList<OptionName> names, IValueParser<T> value) =>
         new OptionParser<T>(names, value);
@@ -38,8 +43,12 @@ public static class Syntax
 
     public static IParser<T, ValueParserResult<T>> Option<T>(OptionName name, OptionName name2, OptionName name3,
         OptionName name4, IValueParser<T> value) => Option([name, name2, name3, name4], value);
-
-
+    
+    public static TValue? Run<TValue, TState>(IParser<TValue, TState> parser, RunOptions<TValue>? options = null)
+    {
+        var runner = new Runner<TValue, TState>(parser, options ?? new RunOptions<TValue>());
+        return runner.Run();
+    }
 
 }
 

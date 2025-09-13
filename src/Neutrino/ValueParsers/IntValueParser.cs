@@ -21,7 +21,7 @@ class IntValueParser : IValueParser<int>
     {
         if (!int.TryParse(input, out var value))
         {
-            return ValueParserResult.Failure<int>(
+            return ValueParserResult.Failure(
                 MessageFromTerms(
                     Text("Input is not a valid integer: "),
                     Value(input)
@@ -30,7 +30,7 @@ class IntValueParser : IValueParser<int>
         }
         if (_min.HasValue && value < _min.Value)
         {
-            return ValueParserResult.Failure<int>(
+            return ValueParserResult.Failure(
                 MessageFromTerms(
                     Text($"Value must be at least {_min.Value}: "),
                     Value(input)
@@ -39,7 +39,7 @@ class IntValueParser : IValueParser<int>
         }
         if (_max.HasValue && value > _max.Value)
         {
-            return ValueParserResult.Failure<int>(
+            return ValueParserResult.Failure(
                 MessageFromTerms(
                     Text($"Value must be at most {_max.Value}: "),
                     Value(input)

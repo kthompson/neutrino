@@ -18,8 +18,8 @@ public record OptionName
     {
         Name = name;
     }
-    
-    public static Option<OptionName> FromString(string name)
+
+    static Option<OptionName> FromString(string name)
     {
         if (string.IsNullOrEmpty(name))
         {

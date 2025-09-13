@@ -22,10 +22,12 @@ public abstract record ValueParserResult<T>
     /// <param name="Error">The error message describing why the parsing failed.</param>
     public sealed record Failure(Message Error) : ValueParserResult<T>;
 
+    public static implicit operator ValueParserResult<T>(ValueParserResult.FailureType failure) => new Failure(failure.Error);
 }
 
 public static class ValueParserResult
 {
+    public record struct FailureType(Message Error);
     public static ValueParserResult<T> Success<T>(T value) => new ValueParserResult<T>.Success(value);
-    public static ValueParserResult<T> Failure<T>(Message error) => new ValueParserResult<T>.Failure(error);
+    public static FailureType Failure(Message error) => new FailureType(error);
 }

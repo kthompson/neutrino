@@ -4,11 +4,13 @@ namespace Neutrino;
 
 public class ParserResult
 {
+    public record struct FailureType(int Consumed, Message Error);
+    
     public static ParserResult<T> Success<T>(ParserContext<T> next, IReadOnlyList<string> consumed) =>
         new ParserResult<T>.ParserSuccess(next, consumed);
     
-    public static ParserResult<T> Failure<T>(int consumed, Message error) =>
-        new ParserResult<T>.ParserFailure(consumed, error);
+    public static FailureType Failure(int consumed, Message error) =>
+        new FailureType(consumed, error);
 }
 
 /// <summary>
@@ -49,4 +51,5 @@ public abstract record ParserResult<TState>
         public override bool Success => false;
     }
 
+    public static implicit operator ParserResult<TState>(ParserResult.FailureType failure) => new ParserFailure(failure.Consumed, failure.Error);
 }

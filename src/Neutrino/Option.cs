@@ -1,6 +1,6 @@
 ﻿namespace Neutrino;
 
-public abstract record Option<T>
+abstract record Option<T>
 {
     public record Some(T Value) : Option<T>;
 
@@ -9,7 +9,7 @@ public abstract record Option<T>
     public static implicit operator Option<T>(Option.NoneType _) => new None();
 }
 
-public class Option
+class Option
 {
     public readonly struct NoneType;
 

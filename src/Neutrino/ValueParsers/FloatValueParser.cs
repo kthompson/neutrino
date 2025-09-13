@@ -22,7 +22,7 @@ class FloatValueParser : IValueParser<float>
     {
         if (!float.TryParse(input, out var value))
         {
-            return ValueParserResult.Failure<float>(
+            return ValueParserResult.Failure(
                 MessageFromTerms(
                     Text("Input is not a valid float: "),
                     Value(input)
@@ -31,7 +31,7 @@ class FloatValueParser : IValueParser<float>
         }
         if (_min.HasValue && value < _min.Value)
         {
-            return ValueParserResult.Failure<float>(
+            return ValueParserResult.Failure(
                 MessageFromTerms(
                     Text($"Value must be at least {_min.Value}: "),
                     Value(input)
@@ -40,7 +40,7 @@ class FloatValueParser : IValueParser<float>
         }
         if (_max.HasValue && value > _max.Value)
         {
-            return ValueParserResult.Failure<float>(
+            return ValueParserResult.Failure(
                 MessageFromTerms(
                     Text($"Value must be at most {_max.Value}: "),
                     Value(input)

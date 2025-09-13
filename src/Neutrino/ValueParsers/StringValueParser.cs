@@ -28,7 +28,7 @@ class StringValueParser : IValueParser<string>
         if (_regex == null || _regex.IsMatch(input))
             return ValueParserResult.Success(input);
 
-        return ValueParserResult.Failure<string>(
+        return ValueParserResult.Failure(
             MessageFromTerms(
                 this.Name == null ? Text("Input") : Metavar(this.Name),
                 Text(" does not match required pattern: "),

@@ -1,6 +1,66 @@
 ﻿using static Neutrino.Syntax;
+using static Neutrino.Tests.Helpers;
 
 namespace Neutrino.Tests;
+
+public class BoolOptionTests
+{
+    [Fact]
+    public void Option_BooleanFlag_SingleName()
+    {
+        var parser = Option("--debug");
+        
+        AssertRun(true, parser, "--debug");
+        AssertRun(false, parser);
+    }
+
+    [Fact]
+    public void Option_BooleanFlag_MultipleNames()
+    {
+        var parser = Option("--debug", "-d", "/debug");
+
+        AssertRun(true, parser, "-d");
+        AssertRun(true, parser, "/debug");
+        AssertRun(true, parser, "--debug");
+        AssertRun(false, parser);
+    }
+
+    [Fact]
+    public void Option_BooleanFlag_ShouldHandleEmptyBuffer()
+    {
+        var parser = Option("--debug");
+        var result = parser.Parse(new ParserContext<ValueParserResult<bool>>
+        {
+            Buffer = [],
+            State = parser.InitialState,
+            OptionsTerminated = false
+        });
+        
+        var failure = Assert.IsType<ParserResult<ValueParserResult<bool>>.ParserFailure>(result);
+        
+        Assert.Equal(0, failure.Consumed);
+        Assert.Equal("Expected an option, but got end of input.", failure.Error.ToString());
+    }
+}
+
+public class FlagOptionTests
+{
+    [Fact]
+    public void Flag_BooleanFlag_SingleName()
+    {
+        var parser = Flag("--verbose");
+        AssertRun(true, parser, "--verbose");
+    }
+
+    [Fact]
+    public void Flag_BooleanFlag_MultipleNames()
+    {
+        var parser = Flag("--verbose", "-v", "/verbose");
+        AssertRun(true, parser, "-v");
+        AssertRun(true, parser, "/verbose");
+        AssertRun(true, parser, "--verbose");
+    }
+}
 
 public class SyntaxOptionTests
 {
@@ -11,6 +71,8 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+
+        AssertRun("true", parser, "--verbose", "true");
     }
 
     [Fact]
@@ -29,6 +91,12 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        AssertRun("result.txt", parser, "-o", "result.txt");
+        AssertRun("data.log", parser, "/out", "data.log");
+        AssertRun("data.log", parser, "/out:data.log");
+        AssertRun("final.md", parser, "--output", "final.md");
+        AssertRun("final.md", parser, "--output=final.md");
     }
 
     [Fact]
@@ -38,6 +106,13 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        AssertRun("settings.yaml", parser, "+cfg", "settings.yaml");
+        AssertRun("app.json", parser, "/config", "app.json");
+        AssertRun("app.json", parser, "/config:app.json");
+        AssertRun("default.ini", parser, "-c", "default.ini");
+        AssertRun("prod.env", parser, "--config", "prod.env");
+        AssertRun("prod.env", parser, "--config=prod.env");
     }
 
     [Fact]
@@ -47,6 +122,10 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        AssertRun(8080, parser, "-p", "8080");
+        AssertRun(443, parser, "--port", "443");
+        AssertRun(3000, parser, "--port=3000");
     }
 
     [Fact]
@@ -56,6 +135,10 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        AssertRun(0.75f, parser, "-t", "0.75");
+        AssertRun(0.5f, parser, "--threshold", "0.5");
+        AssertRun(0.9f, parser, "--threshold=0.9");
     }
 
     [Fact]
@@ -65,6 +148,11 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        var testGuid = Guid.NewGuid();
+
+        AssertRun(testGuid, parser, "--id", testGuid.ToString());
+        AssertRun(testGuid, parser, $"--id={testGuid}");
     }
 
     [Fact]
@@ -74,6 +162,13 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        AssertRun("debug", parser, "--log-level", "debug");
+        AssertRun("info", parser, "--log-level=info");
+        AssertRun("error", parser, "--log-level", "error");
+        
+        // Invalid case
+        // Assert.Throws<ArgumentException>(() => Run(parser, new RunOptions { Arguments = ["--log-level", "verbose"] }));
     }
 
     [Fact]
@@ -83,6 +178,16 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        AssertRun(120, parser, "-t", "120");
+        AssertRun(300, parser, "/timeout", "300");
+        AssertRun(600, parser, "/timeout:600");
+        AssertRun(1800, parser, "--timeout", "1800");
+        AssertRun(3600, parser, "--timeout=3600");
+        
+        // Invalid cases
+        // Assert.Throws<ArgumentException>(() => Run(parser, new RunOptions { Arguments = ["-t", "0"] }));
+        // Assert.Throws<ArgumentException>(() => Run(parser, new RunOptions { Arguments = ["/timeout", "4000"] }));
+        // Assert.Throws<ArgumentException>(() => Run(parser, new RunOptions { Arguments = ["--timeout=-5"] }));
     }
 
     [Fact]
@@ -106,6 +211,8 @@ public class SyntaxOptionTests
         
         Assert.NotNull(parser);
         Assert.NotNull(parser.Usage);
+        
+        AssertRun("true", parser, optionName, "true");
     }
 
     [Fact]

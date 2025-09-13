@@ -13,7 +13,7 @@ class GuidValueParser(string? name = null) : IValueParser<Guid>
             return ValueParserResult.Success(guid);
         }
 
-        return ValueParserResult.Failure<Guid>(
+        return ValueParserResult.Failure(
             MessageFromTerms(
                 Text("Invalid GUID: "),
                 Value(input)
